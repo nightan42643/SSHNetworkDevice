@@ -91,7 +91,7 @@ class SSHNetworkDevice:
         self._config_mode = False
         self._initial_actions()
 
-    def _set_initial_command(self, initial_command: str):
+    def _set_initial_command(self, initial_command: str) -> None:
         if initial_command:
             self._initial_command = initial_command
         else:
