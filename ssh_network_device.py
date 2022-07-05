@@ -4,6 +4,7 @@ import re
 import os
 from datetime import datetime
 from typing import List, Tuple
+from utils import *
 
 
 class Commands:
@@ -66,6 +67,13 @@ class SSHNetworkDevice:
         self._set_default_boundary_pattern(pattern=default_boundary_pattern)
         self._set_prompt_vaule()
 
+        # Experimental: If judge the host is the ip address, the domain_suffix will be ignored.
+        # But it doesn't affect the _domain_suffix attribute.
+        if is_host_ip_address(self._host):
+            re_write_domain_suffix = ''
+        else:
+            re_write_domain_suffix = self._domain_suffix
+
         # Initialize pramiko SSHClient and get a channel.
         # _client: A instance of paramino SSHClient.
         # _channel: It was from the client.invoke_shell().
@@ -73,7 +81,7 @@ class SSHNetworkDevice:
         self._client.set_missing_host_key_policy(
             paramiko.client.AutoAddPolicy())
         self._client.connect(
-            hostname=self._host + self._domain_suffix,
+            hostname=self._host + re_write_domain_suffix,
             port=22,
             username=username,
             password=password,
