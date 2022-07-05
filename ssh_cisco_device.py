@@ -1,6 +1,7 @@
 from ssh_network_device import *
 from ipaddress import ip_address
 
+
 def is_host_ip_address(host: str):
     try:
         host = ip_address(host)
@@ -44,11 +45,11 @@ class SSHCiscoDevice(SSHNetworkDevice):
 
         target_string = initial_command_return_data_split[-1].lower()
 
-        if self._host + self._user_mode_prompt in target_string:
+        if re.search(self._default_boundary_pattern + self._user_mode_prompt, target_string, re.IGNORECASE) is not None:
             self._user_mode = True
             self._privilege_mode = False
             self._config_mode = False
-        elif self._host + self._privilege_mode_prompt in target_string:
+        elif re.search(self._default_boundary_pattern + self._privilege_mode_prompt, target_string, re.IGNORECASE) is not None:
             self._user_mode = False
             self._privilege_mode = True
             self._config_mode = False
