@@ -1,14 +1,6 @@
 from ssh_network_device import *
-from ipaddress import ip_address
+from utils import *
 
-
-def is_host_ip_address(host: str):
-    try:
-        host = ip_address(host)
-        if host:
-            return True
-    except ValueError:
-        return False
 
 class SSHCiscoDevice(SSHNetworkDevice):
 
@@ -21,7 +13,7 @@ class SSHCiscoDevice(SSHNetworkDevice):
             self._default_boundary_pattern = self._host
             if is_host_ip_address(self._host):
                 raise SSHNetworkDeviceError(
-                    'The host you provided is an ip address. In this case, you should provide boundary_partten.'
+                    'The host you provided is an ip address. In this case, you should provide default_boundary_partten.'
                 )
             else:
                 ...
