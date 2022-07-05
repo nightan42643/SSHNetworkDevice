@@ -212,7 +212,6 @@ class SSHNetworkDevice:
             time.sleep(0.1)
             # When the time took over the expired_time, raise an exception.
             after_while = datetime.now().timestamp()
-            print(after_while)
             if after_while - now >= expired_time:
                 raise TimeoutError(
                     'It takes too long to get data from the remote device.')
@@ -300,7 +299,6 @@ class SSHNetworkDevice:
         if command == '\n':
             self._channel.send(command)
             command_debug_str = '\\n'
-            print('COMMAND_DEBUG_STR: ', command_debug_str)
         else:
             self._channel.send(command + '\n')
             command_debug_str = command
