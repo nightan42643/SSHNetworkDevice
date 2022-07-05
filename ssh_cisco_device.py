@@ -1,7 +1,5 @@
 from ssh_network_device import *
 from utils import *
-from pprint import pprint
-
 
 class SSHCiscoDevice(SSHNetworkDevice):
 
