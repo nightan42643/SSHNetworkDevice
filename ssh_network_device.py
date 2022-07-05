@@ -110,18 +110,6 @@ class SSHNetworkDevice:
         I am not sure if all network devices will include the hostname in the CLI prompt.
         So I don't let the host as the default value of boundary_pattern.
         You can re-write this method to change the logic of set the boundary_pattern.
-        Here is an example, for Cisco platform——
-        
-        When you give a default_boundary_pattern arg when you instantiate an object,
-        its _default_boundary_pattern attribute will equal the given arg, or it will equal 
-        the hostname, like below shows:
-
-        ```python3
-        if pattern:
-            self._default_boundary_pattern = pattern
-        else:
-            self._default_boundary_pattern = self._host
-        ```
         '''
         self._default_boundary_pattern = pattern
 
