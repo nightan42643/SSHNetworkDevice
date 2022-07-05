@@ -1,5 +1,6 @@
 from ssh_network_device import *
 from utils import *
+from pprint import pprint
 
 
 class SSHCiscoDevice(SSHNetworkDevice):
@@ -35,21 +36,20 @@ class SSHCiscoDevice(SSHNetworkDevice):
             command=self._initial_command, boundary_pattern=self._default_boundary_pattern
         )
 
-        target_string = initial_command_return_data_split[-1].lower()
+        target_string = initial_command_return_data_split[-1].lower().lstrip('\r').lstrip('\n').rstrip('\r').rstrip('\n')
 
-        if re.search(self._default_boundary_pattern + self._user_mode_prompt, target_string, re.IGNORECASE) is not None:
+        if re.match(self._default_boundary_pattern + self._user_mode_prompt, target_string, re.IGNORECASE) is not None:
             self._user_mode = True
             self._privilege_mode = False
             self._config_mode = False
-        elif re.search(self._default_boundary_pattern + self._privilege_mode_prompt, target_string, re.IGNORECASE) is not None:
+        elif re.match(self._default_boundary_pattern + self._privilege_mode_prompt, target_string, re.IGNORECASE) is not None:
             self._user_mode = False
             self._privilege_mode = True
             self._config_mode = False
             self._terminal_length_zero()
         else:
-            raise SSHNetworkDeviceError(
-                'Unexpected CLI prompt: {}'.format(target_string)
-            )
+            error_log = 'Unexpected CLI prompt' + target_string
+            raise SSHNetworkDeviceError(error_log)
 
     def _terminal_length_zero(self) -> None:
         command = Commands()
