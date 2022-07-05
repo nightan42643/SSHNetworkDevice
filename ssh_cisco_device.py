@@ -1,5 +1,13 @@
 from ssh_network_device import *
+from ipaddress import ip_address
 
+def is_host_ip_address(host: str):
+    try:
+        host = ip_address(host)
+        if host:
+            return True
+    except ValueError:
+        return False
 
 class SSHCiscoDevice(SSHNetworkDevice):
 
@@ -10,6 +18,12 @@ class SSHCiscoDevice(SSHNetworkDevice):
         else:
             # Example: IOS | NX-OS: router
             self._default_boundary_pattern = self._host
+            if is_host_ip_address(self._host):
+                raise SSHNetworkDeviceError(
+                    'The host you provided is an ip address. In this case, you should provide boundary_partten.'
+                )
+            else:
+                ...
 
     def _set_prompt_vaule(self) -> None:
         self._user_mode_prompt = '>'
