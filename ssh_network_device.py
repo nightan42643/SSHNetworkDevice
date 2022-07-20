@@ -4,7 +4,7 @@ import re
 import os
 from datetime import datetime
 from typing import List, Tuple
-from utils import *
+from .utils import *
 
 
 class Commands:

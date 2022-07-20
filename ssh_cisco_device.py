@@ -1,5 +1,5 @@
-from ssh_network_device import *
-from utils import *
+from .ssh_network_device import *
+from .utils import *
 
 class SSHCiscoDevice(SSHNetworkDevice):
 
